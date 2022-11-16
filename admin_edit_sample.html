@@ -5,7 +5,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Home translator</title>
+        <title>Admin add new labels</title>
         <!-- plugins:css -->
         <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
@@ -177,21 +177,21 @@
                 <nav class="sidebar sidebar-offcanvas" id="sidebar">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="user_home.html">
+                            <a class="nav-link" href="admin_label.html">
                                 <i class="mdi mdi-home menu-icon"></i>
-                                <span class="menu-title">Translator</span>
+                                <span class="menu-title">Label manage</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="user_reverse_translation.html">
-                                <i class="mdi mdi-home menu-icon"></i>
-                                <span class="menu-title">Reverse Translator</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="user_history.html">
+                            <a class="nav-link" href="admin_sample.html">
                                 <i class="mdi mdi-view-headline menu-icon"></i>
-                                <span class="menu-title">History</span>
+                                <span class="menu-title">Sample manage</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin_user.html">
+                                <i class="mdi mdi-chart-pie menu-icon"></i>
+                                <span class="menu-title">User manage</span>
                             </a>
                         </li>
                     </ul>
@@ -204,35 +204,47 @@
                                 <div class="d-flex justify-content-between flex-wrap">
                                     <div class="d-flex align-items-end flex-wrap">
                                         <div class="mr-md-3 mr-xl-5">
-                                            <h2>Welcome to hand sign language translator,</h2>
+                                            <h2>Welcome back,</h2>
                                         </div>
                                         <div class="d-flex">
                                             <i class="mdi mdi-home text-muted hover-cursor"></i>
                                             <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;</p>
-                                            <p class="text-primary mb-0 hover-cursor">Translator</p>
+                                            <p class="text-primary mb-0 hover-cursor">Add new sample</p>
                                         </div>
                                     </div>
+                                    <!-- <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                        <a href="./admin_info_label.html" type="button"
+                                            class="btn btn-primary mr-3 mt-2 mt-xl-0">
+                                            <span class="text-white fs-3"> Add new label</>
+                                        </a>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 stretch-card">
+                            <div class="col-12 grid-margin stretch-card">
                                 <div class="card">
-                                    <div class="card-body p-2 p-sm-5 py-4">
-                                        <h4 class="card-title">Input</h4>
+                                    <div class="card-body">
+                                        <h4 class="card-title">Add new sample</h4>
                                         <p class="card-description">
-                                            Upload your video
+                                            Sample Information
                                         </p>
-                                        <form class="forms-sample d-flex justify-content-between" enctype="multipart/form-data">
-                                            <input type="file" name="file" class="file-upload-default">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        <form id="editSampleForm" class="forms-sample">
+                                            <div class="form-group">
+                                                <label for="selectSampleStatus">Status</label>
+                                                <select name="status" class="form-control" id="selectSampleStatus">
+                                                    <option value="trained">Trained</option>
+                                                    <option value="pretrain">Pretrain</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="sampleDescription">Description</label>
+                                                <textarea name="description" class="form-control"
+                                                    id="sampleDescription" rows="4" placeholder="Description"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                            <a href="./admin_sample.html" class="btn btn-light">Cancel</a>
                                         </form>
-                                        <div class="mt-5">
-                                            <video class="container-fluid" controls>
-                                                <source src="./upload/ghostOfYou.mp4" type="video/mp4">
-                                            </video>
-                                        </div>
-                                        <input type="submit" class="btn btn-primary mb-2 mt-3" value="Submit">
                                     </div>
                                 </div>
                             </div>
@@ -275,8 +287,7 @@
         <script src="js/data-table.js"></script>
         <script src="js/jquery.dataTables.js"></script>
         <script src="js/dataTables.bootstrap4.js"></script>
-        <script src="js/file-upload.js"></script>
-        <script src="./user_home.js"></script>
+        <script src="./admin_edit_sample.js"></script>
         <!-- End custom js for this page-->
     </body>
 

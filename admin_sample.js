@@ -34,7 +34,7 @@ const dataLabel = fetch(`${BASE_URL}/labels`, {
                             <td>${samples[j].status}</td>
                             <td>${labels[i].title}</td>
                             <td>
-                                <a href="./admin_info_sample.html"
+                                <a href="./admin_edit_sample.html?id=${samples[j].id}"
                                     class="btn btn-warning mr-3 mt-2 mt-xl-0"">
                                     <span class="text-white fs-4"> Update</>
                                 </a>

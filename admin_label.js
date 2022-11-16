@@ -32,10 +32,6 @@ const dataLabel = fetch(`${BASE_URL}/labels`, {
                         <td>${labels[i].description}</td>
                         <td>${resu.data.length}</td>
                         <td>
-                            <a href="./admin_info_label.html"
-                                class="btn btn-warning mr-3 mt-2 mt-xl-0"">
-                                <span class="text-white fs-4"> Update</>
-                            </a>
                             <button type="button"
                                 class="btn btn-danger mr-3 mt-2 mt-xl-0" onclick="handleDelete(${labels[i].id})">
                                 <span class="text-white fs-4"> Delete</>

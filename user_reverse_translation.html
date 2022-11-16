@@ -5,7 +5,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Home translator</title>
+        <title>Reverse translator</title>
         <!-- plugins:css -->
         <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
@@ -17,6 +17,23 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- endinject -->
         <link rel="shortcut icon" href="images/favicon.png" />
+        <style>
+            /* CSS comes here */
+            #output {
+                padding: 10px;
+                width: 100%;
+                margin-top: 20px;
+                line-height: 30px;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            .show {
+                display: block;
+            }
+        </style>
     </head>
 
     <body>
@@ -209,33 +226,79 @@
                                         <div class="d-flex">
                                             <i class="mdi mdi-home text-muted hover-cursor"></i>
                                             <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;</p>
-                                            <p class="text-primary mb-0 hover-cursor">Translator</p>
+                                            <p class="text-primary mb-0 hover-cursor">Reverse Translator</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 stretch-card">
-                                <div class="card">
-                                    <div class="card-body p-2 p-sm-5 py-4">
-                                        <h4 class="card-title">Input</h4>
-                                        <p class="card-description">
-                                            Upload your video
-                                        </p>
-                                        <form class="forms-sample d-flex justify-content-between" enctype="multipart/form-data">
-                                            <input type="file" name="file" class="file-upload-default">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-                                        <div class="mt-5">
-                                            <video class="container-fluid" controls>
-                                                <source src="./upload/ghostOfYou.mp4" type="video/mp4">
-                                            </video>
-                                        </div>
-                                        <input type="submit" class="btn btn-primary mb-2 mt-3" value="Submit">
-                                    </div>
-                                </div>
+                        <div class="">
+                            <p>Click on the below button and speak something...</p>
+                            <p><button class="btn btn-primary" type="button" onclick="runSpeechRecognition()">Speech to
+                                    Text</button> &nbsp; <span id="action"></span>
+                            </p>
+                            <div id="output" class="hide"></div>
+                            <div id="outputVideo" class="hide">
+                                <video id="myvideo" src="" autoplay width="500px"></video>
                             </div>
+                            <script>
+                                /* JS comes here */
+                                function runSpeechRecognition() {
+                                    // get output div reference
+                                    var output = document.getElementById("output");
+                                    var outputVideo = document.getElementById("outputVideo");
+                                    // get action element reference
+                                    var action = document.getElementById("action");
+                                    // new speech recognition object
+                                    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+                                    var recognition = new SpeechRecognition();
+
+                                    // This runs when the speech recognition service starts
+                                    recognition.onstart = function () {
+                                        action.innerHTML = "<small>listening, please speak...</small>";
+                                    };
+
+                                    recognition.onspeechend = function () {
+                                        action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+                                        recognition.stop();
+                                    }
+
+                                    // This runs when the speech recognition service returns result
+                                    recognition.onresult = function (event) {
+                                        var transcript = event.results[0][0].transcript;
+                                        var confidence = event.results[0][0].confidence;
+                                        output.innerHTML = "<b>Text:</b> " + transcript;
+                                        let myvideo = outputVideo.querySelector('#myvideo');
+                                        console.log(transcript);
+                                        fetch('http://localhost:5000/api/translates/reverse', {
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            method: 'POST',
+                                            body: JSON.stringify({ text: transcript })
+                                        }).then(res => res.json()).then(data => {
+                                            console.log(data.data);
+                                            output.classList.remove("hide");
+                                            outputVideo.classList.remove("hide");
+                                            var activeVideo = 1;
+                                            myvideo.src = 'http://localhost:5000/' + data.data[0];
+                                            myvideo.addEventListener('ended', function (e) {
+                                                // update the new active video index
+                                                activeVideo = (++activeVideo) % data.data.length;
+
+                                                // update the video source and play
+                                                myvideo.src = 'http://localhost:5000/' + data.data[activeVideo];
+                                                myvideo.play();
+                                            });
+
+                                        });
+                                    };
+
+                                    // start recognition
+                                    recognition.start();
+                                }
+                            </script>
                         </div>
                     </div>
                     <!-- content-wrapper ends -->
@@ -275,7 +338,7 @@
         <script src="js/data-table.js"></script>
         <script src="js/jquery.dataTables.js"></script>
         <script src="js/dataTables.bootstrap4.js"></script>
-        <script src="js/file-upload.js"></script>
+        <!-- <script src="js/file-upload.js"></script> -->
         <script src="./user_home.js"></script>
         <!-- End custom js for this page-->
     </body>
